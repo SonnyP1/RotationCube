@@ -8,6 +8,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi_image.h>
 #include <Shader.h>
+#include <Camera.h>
 
 //use mouse movement to control viewing angle
 //make a class called camera that handles everything about camera movement
@@ -159,15 +160,18 @@ int main()
 	float RotateSpeed = 10.f;
 	float previousTime = glfwGetTime();
 
-	float AspectRatio = (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
-	int ProjectMatrixLoc = glGetUniformLocation(Program, "ProjectMatrix");
-	glm::mat4 ProjectionMatrix = glm::perspective(glm::radians(45.f),AspectRatio,0.01f,1000.f);
+	//float AspectRatio = (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
+	//int ProjectMatrixLoc = glGetUniformLocation(Program, "ProjectMatrix");
+	//glm::mat4 ProjectionMatrix = glm::perspective(glm::radians(45.f),AspectRatio,0.01f,1000.f);
 
-	glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3));
-	int ViewMatrixLoc = glGetUniformLocation(Program,"ViewMatrix");
+	//glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3));
+	//int ViewMatrixLoc = glGetUniformLocation(Program,"ViewMatrix");
 
-	float CameraMovementSpeed = 10.f;
-	glm::vec3 CameraLocation = glm::vec3(0.f,0.f,0.f);
+	//float CameraMovementSpeed = 10.f;
+	//glm::vec3 CameraLocation = glm::vec3(0.f,0.f,0.f);
+
+	Camera mainCamera((float)WINDOW_WIDTH,(float)WINDOW_HEIGHT,10.f,Program);
+
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -177,22 +181,22 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		glm::vec3 offset(0.f,0.f,0.f);
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			offset.z += CameraMovementSpeed * DeltaTime;
+			offset.z += mainCamera.CameraMovementSpeed * DeltaTime;
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			offset.z -= CameraMovementSpeed * DeltaTime;
+			offset.z -= mainCamera.CameraMovementSpeed * DeltaTime;
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			offset.x += CameraMovementSpeed * DeltaTime;
+			offset.x += mainCamera.CameraMovementSpeed * DeltaTime;
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			offset.x -= CameraMovementSpeed * DeltaTime;
+			offset.x -= mainCamera.CameraMovementSpeed * DeltaTime;
 
-		viewMatrix = glm::translate(viewMatrix, offset);
+		mainCamera.viewMatrix = glm::translate(mainCamera.viewMatrix, offset);
 
 		ModelMatrix = glm::rotate(ModelMatrix, glm::radians(RotateSpeed * DeltaTime), glm::vec3(1.f, 1.f, 1.f));
 		glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrix));
 		
-		glUniformMatrix4fv(ProjectMatrixLoc,1,GL_FALSE,glm::value_ptr(ProjectionMatrix));
+		glUniformMatrix4fv(mainCamera.ProjectMatrixLoc,1,GL_FALSE,glm::value_ptr(mainCamera.ProjectionMatrix));
 
-		glUniformMatrix4fv(ViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+		glUniformMatrix4fv(mainCamera.ViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(mainCamera.viewMatrix));
 
 		glDrawArrays(GL_TRIANGLES, 0, 12*3);
 
