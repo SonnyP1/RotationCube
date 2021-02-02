@@ -3,12 +3,19 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/glm.hpp>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stbi_image.h>
+#include <Shader.h>
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+//use mouse movement to control viewing angle
+//make a class called camera that handles everything about camera movement
+//glfwGetCursorPosCallback(window,func);
+
+
+#define WINDOW_WIDTH 1920
+#define WINDOW_HEIGHT 1080
 
 std::string GetSourceString(const std::string& Dir)
 {
@@ -38,85 +45,70 @@ int main()
 
 	float vertices[]
 	{
-		-0.5f,-0.5f,-0.5f, // triangle 1 : begin
-		-0.5f,-0.5f, 0.5f,
-		-0.5f, 0.5f, 0.5f, // triangle 1 : end
+		//position           //UV        
+		 -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-		0.5f, 0.5f,-0.5f, // triangle 2 : begin
-		-0.5f,-0.5f,-0.5f,
-		-0.5f, 0.5f,-0.5f, // triangle 2 : end
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
-		0.5f,-0.5f, 0.5f,
-		-0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-		0.5f, 0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
-		-0.5f,-0.5f,-0.5f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-		-0.5f,-0.5f,-0.5f,
-		-0.5f, 0.5f, 0.5f,
-		-0.5f, 0.5f,-0.5f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
 
-		0.5f,-0.5f, 0.5f,
-		-0.5f,-0.5f, 0.5f,
-		-0.5f,-0.5f,-0.5f,
-
-		-0.5f, 0.5f, 0.5f,
-		-0.5f,-0.5f, 0.5f,
-		0.5f,-0.5f, 0.5f,
-
-		0.5f, 0.5f, 0.5f,
-		0.5f,-0.5f,-0.5f,
-		0.5f, 0.5f,-0.5f,
-
-		0.5f,-0.5f,-0.5f,
-		0.5f, 0.5f, 0.5f,
-		0.5f,-0.5f, 0.5f,
-
-		0.5f, 0.5f, 0.5f,
-		0.5f, 0.5f,-0.5f,
-		-0.5f, 0.5f,-0.5f,
-
-		0.5f, 0.5f, 0.5f,
-		-0.5f, 0.5f,-0.5f,
-		-0.5f, 0.5f, 0.5f,
-
-		0.5f, 0.5f, 0.5f,
-		-0.5f, 0.5f, 0.5f,
-		0.5f,-0.5f, 0.5f
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 
-	std::string VertexShaderSrcStr = GetSourceString("Resources/Shaders/VertexShader.shader");
-	std::string FragmentShaderSrcStr = GetSourceString("Resources/Shaders/FragmentShader.shader");
-
-	const char* VertexSrcRaw = VertexShaderSrcStr.c_str();
-	unsigned int VertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(VertexShader,1,&VertexSrcRaw,nullptr);
-	glCompileShader(VertexShader);
-
-	const char* FragmentSrcRaw = FragmentShaderSrcStr.c_str();
-	unsigned int FragShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(FragShader,1,&FragmentSrcRaw,nullptr);
-	glCompileShader(FragShader);
+	Shader VertexShader("Resources/Shaders/VertexShader.shader",GL_VERTEX_SHADER);
+	Shader FragShader("Resources/Shaders/FragmentShader.shader", GL_FRAGMENT_SHADER);
 
 	int success = false;
-	glGetShaderiv(VertexShader, GL_COMPILE_STATUS, &success);
+	glGetShaderiv(VertexShader.GetShaderID(), GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
 		char ComplieMessage[512];
-		glGetShaderInfoLog(VertexShader, 512, nullptr, ComplieMessage);
+		glGetShaderInfoLog(VertexShader.GetShaderID(), 512, nullptr, ComplieMessage);
 		std::cout <<"compile error: " << ComplieMessage << std::endl;
 	}
 
 	unsigned int Program = glCreateProgram();
-	glAttachShader(Program,VertexShader);
-	glAttachShader(Program,FragShader);
+	glAttachShader(Program,VertexShader.GetShaderID());
+	glAttachShader(Program,FragShader.GetShaderID());
 	glLinkProgram(Program);
 	glUseProgram(Program);
 
-	glDeleteShader(VertexShader);
-	glDeleteShader(FragShader);
+	glDeleteShader(VertexShader.GetShaderID());
+	glDeleteShader(FragShader.GetShaderID());
 
 	int LinkSuccess = false;
 	glGetProgramiv(Program, GL_LINK_STATUS, &LinkSuccess);
@@ -133,27 +125,75 @@ int main()
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(float)*3,(void*)0);
+
+	//telling VBO the first location is 3 floats
+	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(float)*5,(void*)0);
+	//Another location of the number 1, it has 2 floats
+	glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,sizeof(float)*5,(void*)(sizeof(float)*3));
+
 	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,texture);
+
+	int width, height, comp;
+	stbi_set_flip_vertically_on_load(true);
+	unsigned char*data = stbi_load("Resources/Textures/killerbean.jpg",&width,&height,&comp,0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width,height,0,GL_RGB,GL_UNSIGNED_BYTE,data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	stbi_image_free(data);
+
+	int imageTexCoord = glGetUniformLocation(Program, "Texture");
+	glUniform1i(imageTexCoord, 0);
 
 	glm::mat4 ModelMatrix(1.f);
-	
+	glEnable(GL_DEPTH_TEST);
 	int modelMatrixLoc = glGetUniformLocation(Program, "ModelMatrix");
-	float RotateSpeed = 2.f;
-	
+	ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.f, 0.f, -3.f));
+	float RotateSpeed = 10.f;
 	float previousTime = glfwGetTime();
+
+	float AspectRatio = (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
+	int ProjectMatrixLoc = glGetUniformLocation(Program, "ProjectMatrix");
+	glm::mat4 ProjectionMatrix = glm::perspective(glm::radians(45.f),AspectRatio,0.01f,1000.f);
+
+	glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3));
+	int ViewMatrixLoc = glGetUniformLocation(Program,"ViewMatrix");
+
+	float CameraMovementSpeed = 10.f;
+	glm::vec3 CameraLocation = glm::vec3(0.f,0.f,0.f);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		float DeltaTime = glfwGetTime() - previousTime;
 		previousTime = glfwGetTime();
 		glClearColor(0.6f,0.4f,0.3f,1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+		glm::vec3 offset(0.f,0.f,0.f);
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			offset.z += CameraMovementSpeed * DeltaTime;
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			offset.z -= CameraMovementSpeed * DeltaTime;
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			offset.x += CameraMovementSpeed * DeltaTime;
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			offset.x -= CameraMovementSpeed * DeltaTime;
 
-	
+		viewMatrix = glm::translate(viewMatrix, offset);
+
 		ModelMatrix = glm::rotate(ModelMatrix, glm::radians(RotateSpeed * DeltaTime), glm::vec3(1.f, 1.f, 1.f));
-
 		glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrix));
 		
+		glUniformMatrix4fv(ProjectMatrixLoc,1,GL_FALSE,glm::value_ptr(ProjectionMatrix));
+
+		glUniformMatrix4fv(ViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+
 		glDrawArrays(GL_TRIANGLES, 0, 12*3);
 
 		glfwSwapBuffers(window);

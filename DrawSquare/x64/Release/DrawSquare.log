@@ -1,11 +1,10 @@
-﻿  glad.c
-  main.cpp
-C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(144,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(147,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(148,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+﻿  main.cpp
+C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(160,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(174,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(175,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   Generating code
-  1 of 236 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  1 of 397 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    8 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   DrawSquare.vcxproj -> C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\x64\Release\DrawSquare.exe
