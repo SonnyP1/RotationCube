@@ -8,7 +8,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi_image.h>
 #include <Shader.h>
-
+#include <Camera.h>
 //use mouse movement to control viewing angle
 //make a class called camera that handles everything about camera movement
 //glfwGetCursorPosCallback(window,func);
@@ -16,6 +16,8 @@
 
 #define WINDOW_WIDTH 1920
 #define WINDOW_HEIGHT 1080
+
+Camera camera;
 
 std::string GetSourceString(const std::string& Dir)
 {
@@ -40,7 +42,7 @@ int main()
 
 	GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH,WINDOW_HEIGHT,"DrawSquare",nullptr,nullptr);
 	glfwMakeContextCurrent(window);
-
+	camera.SetWindow(window);
 	gladLoadGLLoader(GLADloadproc(glfwGetProcAddress));
 
 	float vertices[]
@@ -163,11 +165,7 @@ int main()
 	int ProjectMatrixLoc = glGetUniformLocation(Program, "ProjectMatrix");
 	glm::mat4 ProjectionMatrix = glm::perspective(glm::radians(45.f),AspectRatio,0.01f,1000.f);
 
-	glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3));
 	int ViewMatrixLoc = glGetUniformLocation(Program,"ViewMatrix");
-
-	float CameraMovementSpeed = 10.f;
-	glm::vec3 CameraLocation = glm::vec3(0.f,0.f,0.f);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -175,24 +173,17 @@ int main()
 		previousTime = glfwGetTime();
 		glClearColor(0.6f,0.4f,0.3f,1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		glm::vec3 offset(0.f,0.f,0.f);
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			offset.z += CameraMovementSpeed * DeltaTime;
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			offset.z -= CameraMovementSpeed * DeltaTime;
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			offset.x += CameraMovementSpeed * DeltaTime;
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			offset.x -= CameraMovementSpeed * DeltaTime;
+		
 
-		viewMatrix = glm::translate(viewMatrix, offset);
+		camera.Update(DeltaTime);
+		
 
 		ModelMatrix = glm::rotate(ModelMatrix, glm::radians(RotateSpeed * DeltaTime), glm::vec3(1.f, 1.f, 1.f));
 		glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrix));
 		
 		glUniformMatrix4fv(ProjectMatrixLoc,1,GL_FALSE,glm::value_ptr(ProjectionMatrix));
 
-		glUniformMatrix4fv(ViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+		glUniformMatrix4fv(ViewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
 
 		glDrawArrays(GL_TRIANGLES, 0, 12*3);
 

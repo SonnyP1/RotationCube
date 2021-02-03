@@ -1,22 +1,5 @@
 ﻿  main.cpp
-C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(75,31): warning C4551: function call missing argument list
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-main.obj : error LNK2019: unresolved external symbol gladLoadGLLoader referenced in function main
-main.obj : error LNK2001: unresolved external symbol glad_glClear
-main.obj : error LNK2001: unresolved external symbol glad_glClearColor
-main.obj : error LNK2001: unresolved external symbol glad_glDrawArrays
-main.obj : error LNK2001: unresolved external symbol glad_glBindBuffer
-main.obj : error LNK2001: unresolved external symbol glad_glGenBuffers
-main.obj : error LNK2001: unresolved external symbol glad_glBufferData
-main.obj : error LNK2001: unresolved external symbol glad_glAttachShader
-main.obj : error LNK2001: unresolved external symbol glad_glCompileShader
-main.obj : error LNK2001: unresolved external symbol glad_glCreateProgram
-main.obj : error LNK2001: unresolved external symbol glad_glCreateShader
-main.obj : error LNK2001: unresolved external symbol glad_glDeleteShader
-main.obj : error LNK2001: unresolved external symbol glad_glEnableVertexAttribArray
-main.obj : error LNK2001: unresolved external symbol glad_glLinkProgram
-main.obj : error LNK2001: unresolved external symbol glad_glShaderSource
-main.obj : error LNK2001: unresolved external symbol glad_glVertexAttribPointer
-main.obj : error LNK2001: unresolved external symbol glad_glBindVertexArray
-main.obj : error LNK2001: unresolved external symbol glad_glGenVertexArrays
-C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\x64\Debug\DrawSquare.exe : fatal error LNK1120: 18 unresolved externals
+C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(162,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(172,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(173,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  DrawSquare.vcxproj -> C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\x64\Debug\DrawSquare.exe
