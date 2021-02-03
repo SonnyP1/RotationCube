@@ -12,4 +12,3 @@ private:
 private:
 	unsigned int m_ShaderID;
 };
-
