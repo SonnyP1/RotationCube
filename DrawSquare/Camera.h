@@ -18,8 +18,9 @@ public:
 	 Camera();
 
 	 void SetWindow(GLFWwindow* window) { m_Window = window; }
-	 void Update(float DeltaTime);
+	 void Update(float DeltaTime,bool &cursorLocked);
 	 glm::mat4 GetViewMatrix();
+	 void CusorMoved(double xPos, double yPos);
 private: //Variables
 	glm::vec3 m_CameraLocation;
 	float m_Yaw;					//looking right and left

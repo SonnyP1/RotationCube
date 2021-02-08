@@ -1,5 +1,5 @@
 ﻿  main.cpp
-C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(162,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(172,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(173,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(158,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(188,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\DrawSquare\main.cpp(189,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   DrawSquare.vcxproj -> C:\Users\Sonny Ponce\source\repos\GameProgrammingII\DrawSquare\x64\Debug\DrawSquare.exe
